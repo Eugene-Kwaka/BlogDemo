@@ -1,0 +1,50 @@
+{% extends 'core/base.html' %}
+{% block title %} {{post.title}} | {% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="hero-body">
+        <div class="container">
+            <section class="section">
+                <div class="columns">
+                    <div class="column is-8 is-offset-2">
+                        <div class="content is-medium">
+                                <h4 class="subtitle is-4">{{ post.created_at|timesince }} ago</h4>
+                                <h1 class="title">{{ post.title }}</h1>
+                                <!-- when the category is clicked on, it will send us to the particular category page that shows all the posts in that category -->
+                                <p>Category: <a href="{% url 'category' post.category.slug %}">{{post.category}}</a></p>
+                                <p>{{ post.body }}</p>
+
+                                <hr>
+
+                                <h2 class="subtitle is-4">Comments</h2>
+                                <form method="post" class="mb-6">
+                                    {% csrf_token %}
+                                    {{form.as_p}}
+                                    <div class="field">
+                                        <div class="control">
+                                            <button class="button is-success">Submit Comment</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <hr>
+                                <!-- 'post.comments.all' because we are looping through all the comments a particular post has -->
+                                {% for comment in post.comments.all %}
+                                <article class="media-box mb-4">
+                                    <div class="media-content">
+                                        <strong>{{ comment.name}}</strong> <small>{{comment.created_at|timesince}} ago</small>
+                                        <br>
+                                        {{comment.message}}
+                                    </div>
+                                </article>
+                                
+                                {% endfor %}
+                        </div>
+                        
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+{% endblock %}
