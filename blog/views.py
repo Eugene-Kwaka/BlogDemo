@@ -20,8 +20,8 @@ def post_detail(request, category_slug, slug):
             # This links the comment to the post object defined above
             comment.post = post
             comment.save()
-            # after saving the comment the reader will be redirected to the specific post they commented using the slug
-            return redirect('post_detail', slug=slug)
+            # after saving the comment the reader will be redirected to the specific post they commented using the slugs for both category and post
+            return redirect('post_detail', category_slug=category_slug , slug=slug)
         else:
             # If form is not valid it will return an empty form
             form = CommentForm()

@@ -8,9 +8,11 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Categories'
         
-
     def __str__(self):          
         return self.title   
+
+    def get_absolute_url(self):
+        return '/%s/' % self.slug
 
 class Post(models.Model):
     ACTIVE = 'active'
@@ -28,9 +30,14 @@ class Post(models.Model):
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=10, choices=CHOICES_STATUS, default=ACTIVE)
+    image = models.ImageField(upload_to='upload/', blank=True, null=True)
 
     def __str__(self):          
         return self.title   
+
+    def get_absolute_url(self):
+        return '/%s/%s/' % (self.category.slug, self.slug)
+
     # The ordering of the posts will be in descending from the newest to the oldest posts
     class Meta:
         ordering = ('-created_at',)

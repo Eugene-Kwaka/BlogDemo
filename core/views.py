@@ -1,3 +1,5 @@
+from django.db.models.fields import TextField
+from django.http.response import HttpResponse
 from django.shortcuts import render
 from blog.models import Post
 
@@ -14,3 +16,10 @@ def home(request):
 def about(request):
     about="here you can no more about us"
     return render(request, 'core/about.html', {'about':about})
+
+def robots_txt(request):
+    text = [
+        "User-Agent: *",
+        "Disallow: /admin/",
+    ]
+    return HttpResponse("\n".join(text), content_type="text/plain")
